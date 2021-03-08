@@ -1,0 +1,12 @@
+{
+  "name": "quizzNative",
+  "displayName": "quizzNative",
+  "expo": {
+    "name": "quizzNative",
+    "slug": "quizzNative",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
