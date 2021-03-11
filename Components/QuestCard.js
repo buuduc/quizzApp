@@ -1,19 +1,17 @@
-import { StatusBar } from "expo-status-bar";
-import * as React from "react";
+import React, { useContext } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { RadioButton } from "react-native-paper";
-
+import { ScoreContext } from "../Contexts/Score";
 export default function QuestCard(props) {
   const [value, setValue] = React.useState();
+  const [score, addScore] = useContext(ScoreContext);
 
   const handlerValue = (newvalue) => {
-    // console.log(props.trueQuest);
+    console.log(score);
     if (newvalue === props.trueQuest.toString()) {
-      // console.log(true);
-      props.showResult(true);
+      addScore({ id: props.id, score: true });
     } else {
-      props.showResult(false);
-      // console.log(false);
+      addScore({ id: props.id, score: false });
     }
   };
 

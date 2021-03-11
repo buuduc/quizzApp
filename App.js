@@ -1,64 +1,58 @@
-import { StatusBar } from "expo-status-bar";
-import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, FlatList, ScrollView } from "react-native";
-import { RadioButton } from "react-native-paper";
+import React, { useState, useEffect, useContext } from "react";
+import { StyleSheet, Text, View, Button, ScrollView } from "react-native";
 import QuestCard from "./Components/QuestCard";
 import axios from "axios";
-import { set } from "react-native-reanimated";
+import { ScoreProvider, ScoreContext } from "./Contexts/Score";
+import MaterialCard12 from "./Components/MaterialCard12";
 export default function App() {
   let stt = 1;
   const [data, setData] = useState([]);
-  const [score, setScore] = useState();
-  scoreHandle = (result) => {
-    setData((prevScore) => [
-      ...prevScore,
-      { id: Math.random().toString(), result: result },
-    ]);
-    console.log(score);
+  // const [score, addScore] = useContext(ScoreContext);
+  // const scoreHandle = (result) => {
+  //   setData((prevScore) => [
+  //     ...prevScore,
+  //     { id: Math.random().toString(), result: result },
+  //   ]);
+  //   console.log(score);
+  // };
+  const MarkHandle = () => {
+    let mark = 0;
+    // score.map((item) => {
+    //   if (item.score == true) {
+    //     mark += 1;
+    //   }
+    // });
   };
   useEffect(() => {
     axios
-      .get("https://603f0302d952850017603d75.mockapi.io/quizz")
+      .get("https://aqueous-beach-27064.herokuapp.com/offices")
       .then((res) => {
         setData(res.data);
       });
   }, []);
   return (
-    <View style={styles.container}>
-      {/* <FlatList
-        style={styles.flatList}
-        // numColumns={2}
-        data={data}
-        keyExtractor={(itemData) => (stt++).toString()}
-        renderItem={(itemData) => {
-          return (
-            <QuestCard
-              thread={itemData.item.thread}
-              quest1={itemData.item.quest1}
-              quest2={itemData.item.quest2}
-              quest3={itemData.item.quest3}
-              quest4={itemData.item.quest4}
-              trueQuest={(itemData.item.trueQuest % 4) + 1}
-            ></QuestCard>
-          );
-        }}
-      /> */}
-      <ScrollView>
-        {data.map((itemData) => {
-          return (
-            <QuestCard
-              showResult={scoreHandle.bind}
-              thread={itemData.thread}
-              quest1={itemData.quest1}
-              quest2={itemData.quest2}
-              quest3={itemData.quest3}
-              quest4={itemData.quest4}
-              trueQuest={(itemData.trueQuest % 4) + 1}
-            ></QuestCard>
-          );
-        })}
-      </ScrollView>
-    </View>
+    <ScoreProvider>
+      <View style={styles.container}>
+        <ScrollView>
+          <MaterialCard12 title="bai thi" description="bai thi thu" />
+          {data.map((itemData) => {
+            return (
+              <QuestCard
+                key={itemData.ID}
+                id={itemData.ID}
+                thread={itemData.thread}
+                quest1={itemData.quest1}
+                quest2={itemData.quest2}
+                quest3={itemData.quest3}
+                quest4={itemData.quest4}
+                trueQuest={(parseInt(itemData.truequest) % 4) + 1}
+              ></QuestCard>
+            );
+          })}
+          <Button title="Chấm điẻm" onClick={MarkHandle} />
+        </ScrollView>
+      </View>
+    </ScoreProvider>
   );
 }
 
@@ -71,3 +65,4 @@ const styles = StyleSheet.create({
     // justifyContent: "center",
   },
 });
+``;
